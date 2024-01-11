@@ -3,12 +3,8 @@ package Main;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
 
-public class MainWindow implements ActionListener
-{
+public class MainWindow implements ActionListener{
 	private JPanel titlePanel;
 	private JFrame window ;
 	public MainWindow() 
@@ -16,29 +12,20 @@ public class MainWindow implements ActionListener
 		initializeLogin();
 	}
 	public void initializeLogin()
-	{
-//		File file = new File("/Incentiplanner/src/Objects/Untitled 1");  // created a file object called file
-//		FileWriter fw = new FileWriter(file); // created a filewriter object called fw
-//		PrintWriter pw = new PrintWriter(fw); // created a printwriter object called pw
-//		
-//		pw.println("Line 1");
-//		pw.println("Line 2");
-//		pw.println("Line 3");
-//		
-//		pw.close();
-		
+	{		
 		window = new JFrame();
 		window.setTitle("Login");
 		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		window.setLocationRelativeTo(null);
+		window.setSize(new Dimension(1600,1000));
 			
 		JPanel panel = new JPanel();
-		panel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+		panel.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
 		panel.setBackground(Color.gray);
 		
 		JPasswordField pwField = new JPasswordField();
-		pwField.setPreferredSize(new Dimension(750,150));
-		
+		pwField.setPreferredSize(new Dimension(750,50));
+
 		JButton mainButton = new JButton("Main");
 		mainButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -48,7 +35,6 @@ public class MainWindow implements ActionListener
 		});
 		mainButton.setPreferredSize(new Dimension(750,150));
 		mainButton.setBackground(Color.green);
-		
 		
 		panel.add(pwField);
 		panel.add(mainButton);
@@ -74,8 +60,7 @@ public class MainWindow implements ActionListener
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		JMenuItem newMenuItem = new JMenuItem("New... ");
-//		ImageIcon notepad = new ImageIcon("Images/notebook.png");		
-//		newMenuItem.setIcon(notepad);
+
 		newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		newMenuItem.addActionListener(this);
 		
@@ -140,7 +125,7 @@ public class MainWindow implements ActionListener
 		button3.setMargin(new Insets(10,10,10,30));
 		button3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				InitializeMonthly();
+				initializePlanner();
 			}
 		});
 		button3.setBackground(Color.CYAN);
@@ -157,9 +142,6 @@ public class MainWindow implements ActionListener
 		label.setForeground(Color.WHITE);
 		label.setFont(new Font("Sans-serif", Font.BOLD, 36));
 		
-		//ImageIcon labelIcon = new ImageIcon("logo.png");
-		//label.setIcon(labelIcon);
-		//label.setIconTextGap(10);
 		label.setHorizontalTextPosition(SwingConstants.CENTER);
 		label.setVerticalTextPosition(SwingConstants.BOTTOM);
 		
@@ -169,12 +151,65 @@ public class MainWindow implements ActionListener
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		window.setVisible(true);
 	}
-	
-	public void InitializeMonthly()
-	{
+	public void initializePlanner(){
+		window = new JFrame();
+		window.setTitle("Selection");
+		window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		window.setSize(1600,1000);
+		window.setLocationRelativeTo(null);
 		
+		JPanel selector = new JPanel();
+		selector.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 5));
+		
+		JButton monthly = new JButton("Monthly");
+		monthly.setPreferredSize(new Dimension(200,75));
+		monthly.setFont(new Font("Arial", Font.PLAIN, 16));
+		monthly.setMargin(new Insets(10,10,10,30));
+		monthly.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				InitializeMonthly();
+			}
+		});
+		
+		JButton weekly = new JButton("Weekly");
+		weekly.setPreferredSize(new Dimension(200,75));
+		weekly.setFont(new Font("Arial", Font.PLAIN, 16));
+		weekly.setMargin(new Insets(10,10,10,30));
+		weekly.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initiateWeekly();
+			}
+		});
+		
+		JButton daily = new JButton("Daily");
+		daily.setPreferredSize(new Dimension(200,75));
+		daily.setFont(new Font("Arial", Font.PLAIN, 16));
+		daily.setMargin(new Insets(10,10,10,30));
+		daily.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initializeDaily();
+			}
+		});
+		
+		window.add(selector);
+		selector.add(weekly);
+		selector.add(daily);
+		selector.add(monthly);
+		selector.setVisible(true);
+		window.setVisible(true);
+	}
+	public void InitializeMonthly(){
+		JPanel panel = new JPanel(new GridLayout(6, 7, 5, 0));
+		JPanel currentPanel = new JPanel();
+		JButton backButton = new JButton("Menu");
+		JPanel dayPanel = new JPanel();
 		JLabel current = new JLabel();
-		current.setFont(new Font("Arial", Font.BOLD, 24));
+		JMenuBar menuBar = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		JMenuItem newMenuItem = new JMenuItem("New... ");
+		JMenuItem saveMenuItem = new JMenuItem("Save");
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		
 		window.setVisible(false);
 		window = new JFrame();
 		window.setTitle("Monthly view");
@@ -182,40 +217,21 @@ public class MainWindow implements ActionListener
 		window.setSize(1600,1000);
 		window.setLayout(new BorderLayout(30,30));
 		window.setLocationRelativeTo(null);
-		JMenuBar menuBar = new JMenuBar();
-
-		JMenu fileMenu = new JMenu("File");
+		
+		current.setFont(new Font("Arial", Font.BOLD, 24));
 		fileMenu.setMnemonic(KeyEvent.VK_F);
-		JMenuItem newMenuItem = new JMenuItem("New... ");
 		newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
 		newMenuItem.addActionListener(this);
-		
-		JMenuItem saveMenuItem = new JMenuItem("Save");
 		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
-
-		JMenuItem exitMenuItem = new JMenuItem("Exit");
 		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
-
 		fileMenu.add(newMenuItem);
 		fileMenu.add(saveMenuItem);
 		fileMenu.add(exitMenuItem);
-		
-		fileMenu.add(new JRadioButtonMenuItem("RadioButton"));
 		fileMenu.add(new JCheckBoxMenuItem("CheckBox"));
 		fileMenu.add(new JMenu("Sub Menu"));
 		fileMenu.addSeparator();
-		
 		menuBar.add(fileMenu);
-		
-		window.setJMenuBar(menuBar);
-		
-		JPanel panel = new JPanel(new GridLayout(5, 7, 5, 0));
-		JPanel currentPanel = new JPanel();
-		
-		JPanel dayPanel = new JPanel();
 		dayPanel.setLayout(new BorderLayout(10, 10));
-		
-		JButton backButton = new JButton("Menu");
 		backButton.setToolTipText("Go back to the Menu");
 		backButton.setMnemonic(KeyEvent.VK_M);
 		backButton.setPreferredSize(new Dimension(200,75));
@@ -228,12 +244,19 @@ public class MainWindow implements ActionListener
 			}
 		});
 		dayPanel.add(backButton, BorderLayout.WEST);
-		
-		for(int i = 1; i <= 35; i++)
+		Font textFont = new Font("Arial", Font.BOLD, 24);
+		panel.add(new JLabel("Monday"));
+		panel.add(new JLabel("Tuesday"));
+		panel.add(new JLabel("Wednesday"));
+		panel.add(new JLabel("Thursday"));
+		panel.add(new JLabel("Friday"));
+		panel.add(new JLabel("Saturday"));
+		panel.add(new JLabel("Sunday"));
+
+		for(int i = 8; i <= 42; i++)
 		{
-			
 			JTextField textField = new JTextField("Text Box");
-			textField.setFont(new Font("Arial", Font.BOLD, 24));
+			textField.setFont(textFont);
 			textField.setForeground(Color.blue);
 			textField.setBackground(Color.yellow);
 			textField.setMargin(new Insets(2, 3, 2, 3));
@@ -246,67 +269,25 @@ public class MainWindow implements ActionListener
 				
 			});
 			panel.add(textField);
-			
 		}
+		
 		currentPanel.add(current, BorderLayout.CENTER);
 //		currentPanel.setPreferredSize(new Dimension(1000, 100));
 		window.add(panel, BorderLayout.CENTER);
 		window.add(currentPanel, BorderLayout.SOUTH);
 		window.add(dayPanel, BorderLayout.NORTH);
 		window.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-
+		window.setJMenuBar(menuBar);
 		window.pack();
 		window.setVisible(true);
 		
 	}
-	
 	public void initiateWeekly()
 	{
-		String[] col;
-		Object[][] data;
-		
-		window = new JFrame("JTable");
-		col = new String[]{"Accounts","Amount"};
-		data = getData();
-		JTable jt = new JTable(data, col);
-		JScrollPane js = new JScrollPane(jt);
-		window.add(js);
-		window.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		window.pack();
-		window.setVisible(true);
 	}
-	
-	Object[][] getData()
+	public void initializeDaily()
 	{
-		try{
-			String path = null; // set up path
-			BufferedReader br = new BufferedReader(new FileReader(path + "/name.csv")); // just get the files
-			ArrayList<String> list = new ArrayList();
-			String str = "";
-			while((str = br.readLine()) != null){
-				list.add(str);
-				System.out.println(str);
-			}
-			int n = list.get(0).split(",").length;
-			Object[][] data = new Object[list.size()][n];
-			
-			for(int i = 0; i < list.size(); i++){
-				data[i] = list.get(i).split(",");
-			}
-			br.close();
-			return data;
-			
-		}catch(Exception x){
-			x.printStackTrace();
-			return null;
-		}
 	}
-	public void initiateDaily()
-	{
-		
-	}
-
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		if(e.getSource() instanceof JMenuItem) {
@@ -315,5 +296,4 @@ public class MainWindow implements ActionListener
 			System.out.println(text);
 		}
 	}
-
 }
