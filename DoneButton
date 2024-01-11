@@ -1,0 +1,52 @@
+package Main;
+
+import javax.swing.*;
+
+import java.awt.Color;
+import java.awt.event.*;
+
+public class DoneButton implements ActionListener
+{
+	private int coins = 0;
+	
+	JButton button;
+	JLabel label;
+	
+	DoneButton()
+	{
+		JFrame window = new JFrame();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		button = new JButton("Finish?");
+		button.setBounds(200,100,100,50);
+		button.addActionListener(this);
+		button.setBackground(Color.RED);
+		label = new JLabel("" + coins);
+		label.setBounds(200,300,300,50);
+		
+		window.setLayout(null);
+		window.setSize(500,500);
+		window.setVisible(true);
+		window.add(button);
+		window.add(label);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource()==button)
+		{
+			System.out.print(coins);
+			if(button.getText().equals("Finish?")){
+				coins+=10;
+				button.setText("Undo");
+				button.setBackground(Color.GREEN);
+			}
+			else{
+				coins-=10;
+				button.setText("Finish?");
+				button.setBackground(Color.RED);
+			}
+			label.setText(""+coins);
+		}
+	}
+	
+}
