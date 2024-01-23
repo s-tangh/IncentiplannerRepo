@@ -1,0 +1,124 @@
+package MainWindow;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+import java.util.ArrayList;
+
+// TODO: FINISH ARRAYLIST STUFF
+// TODO: FINISH PROFILE
+// TODO: MAKE CALENDAR VIEWS LOOK NORMAL
+// TODO: Make a "today is..."
+// TODO: Add imagery
+
+public class Shop extends JFrame implements ActionListener{
+	private ArrayList<Texture> texture = new ArrayList<Texture>();
+	private JPanel titlePanel;
+	private int coins;
+	private ImageIcon coinImg= new ImageIcon("/Incentiplanner/src/MainWindow/coin.png");
+	public Shop(int coins) {
+		this.coins = coins;
+		this.setTitle("Main");
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setPreferredSize(new Dimension(3200, 2000));
+		this.setLocationRelativeTo(null);
+		
+		JMenuBar menuBar = new JMenuBar();
+		JMenu fileMenu = new JMenu("File");
+		fileMenu.setMnemonic(KeyEvent.VK_F);
+		JMenuItem newMenuItem = new JMenuItem("New... ");
+		newMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, ActionEvent.CTRL_MASK));
+		newMenuItem.addActionListener(this);
+		
+		JMenuItem saveMenuItem = new JMenuItem("Save");
+		saveMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+
+		JMenuItem exitMenuItem = new JMenuItem("Exit");
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, ActionEvent.CTRL_MASK));
+
+		fileMenu.add(newMenuItem);
+		fileMenu.add(saveMenuItem);
+		fileMenu.add(exitMenuItem);
+		
+		menuBar.add(fileMenu);
+		this.setJMenuBar(menuBar);
+		
+		// Main Panel
+		JPanel TexturePanel = new JPanel();
+		TexturePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		TexturePanel.setBackground(Color.pink);
+		TexturePanel.setPreferredSize(new Dimension(1000, 250));
+		
+		// Adding the buyables
+		Texture midnight = new Texture("Midnight", new Font("Arial", Font.BOLD, 16), 
+				new Color(79,18,113), new Color(200,198,215));
+		Texture seaweed = new Texture("Seaweed", new Font("Arial", Font.BOLD, 16), 
+				new Color(104,195,212), new Color(76,224,210));
+		Texture contrast = new Texture("Contrast", new Font("Arial", Font.BOLD, 16), 
+				new Color(249,233,0), new Color(10,16,69));
+		
+		
+		
+		JPanel dayPanel = new JPanel();
+		dayPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 1, 2));
+		JLabel coinage = new JLabel("" + coins);
+		coinage.setIcon(coinImg);
+		dayPanel.add(coinage, BorderLayout.EAST);
+		JButton backButton = new JButton("Menu");
+		
+		backButton.setToolTipText("Go back to the Menu");
+		backButton.setMnemonic(KeyEvent.VK_M);
+		backButton.setPreferredSize(new Dimension(100,100));	
+		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+		        MainWindow main = new MainWindow(getCoins());   
+			}
+		});
+		dayPanel.add(backButton);
+		
+		// Jlabel is a display for a short text String
+		titlePanel = new JPanel();
+		titlePanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+		titlePanel.setBackground(Color.DARK_GRAY);
+		this.add(titlePanel, BorderLayout.NORTH);
+		
+		JLabel label = new JLabel("Incentiplanner - \"Incentivize your planning\"");
+		titlePanel.add(label);
+		label.setForeground(Color.WHITE);
+		label.setFont(new Font("Sans-serif", Font.BOLD, 36));
+		
+		label.setHorizontalTextPosition(SwingConstants.CENTER);
+		label.setVerticalTextPosition(SwingConstants.BOTTOM);
+		
+		
+		this.add(TexturePanel, BorderLayout.WEST);
+		this.add(dayPanel, BorderLayout.NORTH);
+		
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		this.setVisible(true);
+	}
+	
+	public void actionPerformed(ActionEvent e) {
+		if(e.getSource() instanceof JMenuItem) {
+			JMenuItem item = (JMenuItem) e.getSource();
+			String text = item.getText();
+			System.out.println(text);
+		}
+	}
+	int getCoins()
+	{
+		return coins;
+	}
+	
+	void setCoins(int amt)
+	{
+		this.coins = amt;
+	}
+	
+	public void close()
+	{
+		this.setVisible(false);
+	}
+}
