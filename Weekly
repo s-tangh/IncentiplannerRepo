@@ -1,0 +1,135 @@
+package MainWindow;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+
+public class Weekly extends JFrame {
+	private int coins;
+	
+	public Weekly(int coins)
+	{
+		
+		this.coins = coins;
+		JPanel panel = new JPanel(new GridLayout(2, 7, 5, 0));
+		JButton backButton = new JButton("Menu");
+		JPanel dayPanel = new JPanel();
+		Font font = new Font("Arial", Font.BOLD, 16);
+		JLabel coinage = new JLabel("" + coins);
+		
+		SimpleDateFormat formatter = new SimpleDateFormat();
+		Date date = new Date();
+		
+		this.setTitle("Monthly view");
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setLayout(new BorderLayout());
+		this.setLocationRelativeTo(null);
+		
+		dayPanel.setLayout(new BorderLayout());
+		
+		JLabel time = new JLabel(formatter.format(date));
+		
+		backButton.setToolTipText("Go back to the Menu");
+		backButton.setMnemonic(KeyEvent.VK_M);
+		backButton.setFont(font);
+		
+		
+		
+		backButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				close();
+		        MainWindow main = new MainWindow(getCoins());   
+			}
+		});
+		
+		dayPanel.add(backButton, BorderLayout.WEST);
+//		dayPanel.add(coinage, BorderLayout.EAST);
+		
+		panel.add(new JLabel("Monday"));
+		panel.add(new JLabel("Tuesday"));
+		panel.add(new JLabel("Wednesday"));
+		panel.add(new JLabel("Thursday"));
+		panel.add(new JLabel("Friday"));
+		panel.add(new JLabel("Saturday"));
+		panel.add(new JLabel("Sunday"));
+
+		for(int i = 1; i <= 7; i++)
+		{
+			JPanel innerPanel = new JPanel();
+			JTextArea textArea = new JTextArea("");
+			textArea.setPreferredSize(new Dimension(50, 50));
+
+			JButton button = new JButton("N");
+			button.setPreferredSize(new Dimension(25, 25));
+//			button.setBounds(200,100,100,50);
+			button.setBackground(Color.RED);
+
+			textArea.setFont(font);			
+			
+			innerPanel.add(textArea, BorderLayout.CENTER);
+			JScrollPane sp = new JScrollPane(textArea, 
+					 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, 
+					 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			innerPanel.add(sp);
+			
+			innerPanel.add(button, BorderLayout.SOUTH);			
+			
+			button.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(button.getText().equals("N")){
+						setCoins(getCoins() + 10);
+						coinage.setText(""+ getCoins());
+						button.setText("Y");
+						button.setBackground(Color.GREEN);
+					}
+					else{
+						setCoins(getCoins() - 10);
+						coinage.setText(""+ getCoins());
+						button.setText("N");
+						button.setBackground(Color.RED);
+					}
+				}
+			}); 
+			
+			dayPanel.add(coinage, BorderLayout.EAST);
+			dayPanel.add(time);
+			panel.add(innerPanel);
+		}
+//		currentPanel.setPreferredSize(new Dimension(1000, 100));
+		this.add(panel, BorderLayout.CENTER);
+		this.add(dayPanel, BorderLayout.NORTH);
+		this.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+		this.setVisible(true);
+	}
+	int getCoins()
+	{
+		return coins;
+	}
+	
+	void setCoins(int amt)
+	{
+		this.coins = amt;
+	}
+	
+	public void close()
+	{
+		this.setVisible(false);
+	}
+}
