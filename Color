@@ -1,0 +1,42 @@
+package MainWindow;
+
+import java.awt.*;
+import javax.swing.*;
+import java.awt.event.*;
+
+public class Texture 
+{
+	private String name;
+	private Font font;
+	private Color color1;
+	private Color color2;
+	
+	public Texture(String name, Font font, Color color1, Color color2)
+	{
+		this.name = name;
+		this.font = font;
+		this.color1 = color1;
+		this.color2 = color2;
+		
+	}
+	
+	public String getName()
+	{
+		return this.name;
+	}
+	
+	public Color getC1()
+	{
+		return this.color1;
+	}
+	
+	public Color getC2()
+	{
+		return this.color2;
+	}
+	
+	public Font getFont()
+	{
+		return this.font;
+	}
+}
